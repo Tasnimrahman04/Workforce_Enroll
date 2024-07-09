@@ -29,7 +29,7 @@ function Banner() {
 </label>
 </div>
 
-<button className="btn mt-4  bg-blue-500 text-white">Secondary</button>
+<button className="btn mt-4  bg-blue-500 text-white">Get Started</button>
       </div>
       <div className=' w-full md:w-1/2 pt-16 md:pt-32'>
       <img src={banner} className="w-100 h-100" alt=""/>

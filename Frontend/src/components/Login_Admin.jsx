@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import toast from 'react-hot-toast';
 
 function Login_Admin() {
   const {
@@ -9,7 +11,7 @@ function Login_Admin() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data) =>{
     console.log(data);
     document.getElementById("my_modal_admin").close(); // Close modal on successful form submission
   };
@@ -43,20 +45,20 @@ function Login_Admin() {
       <input 
       type='text'
       placeholder='Enter Admin-name'
-      className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'{...register("text", { required: true })}/>
+      className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'{...register("admin_name", { required: true })}/>
       <br/>
-      {errors.text && <span className="text-sm text-red-500">This field is required</span>}
+      {errors.admin_name && <span className="text-sm text-red-500">This field is required</span>}
     </div>
 
     <div className='mt-4 space-y-2'>
-      <span>Admin-ID</span>
+      <span>Admin-Email</span>
       <br/>
       <input 
-      type='text'
-      placeholder='Enter Admin-id'
-      className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'{...register("text1", { required: true })}/>
+      type='email'
+      placeholder='Enter Admin-email'
+      className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'{...register("admin_email", { required: true })}/>
       <br/>
-      {errors.text1 && <span className="text-sm text-red-500">This field is required</span>}
+      {errors.admin_email && <span className="text-sm text-red-500">This field is required</span>}
     </div>
 
     <div className='mt-4 space-y-2'>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-
+import axios from "axios";
+import toast from 'react-hot-toast';
 function Login_Jobseeker() {
   const {
     register,
@@ -11,27 +12,32 @@ function Login_Jobseeker() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data); // Log form data for testing
-    document.getElementById("my_modal_jobseeker").close(); // Close modal on successful form submission
-    // Handle your form submission logic here, such as sending data to a backend API
-    // Example:
-    // fetch('/login', {
-    //   method: 'POST',
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(response => {
-    //   if (response.ok) {
-    //     // Handle successful login
-    //   } else {
-    //     // Handle failed login
-    //   }
-    // });
+  const onSubmit =async (data) => {
+    const userInfo={
+      email:data.email,
+      password:data.password,
+    }
+    await axios.post("http://localhost:4001/user/login_jobseeker",userInfo)
+    .then((res)=>{
+      console.log(res.data)
+      if(res.data){
+        //alert("Login Successful")
+        toast.success('Login Successful');
+      }
+      localStorage.setItem("Users",JSON.stringify(res.data));
+    }
+  ).catch((err)=>{
+    //if(err.response){
+      console.log(err)
+    //alert("Error:" +err.response.data.message);
+    //alert("Wrong Email or Password")
+    toast.error('Wrong Email or Password');
+    }
+  //}
 
-    // Navigate to another route if needed
-    // navigate('/dashboard'); // Example navigation to dashboard
+  )
+  //}; // Log form data for testing
+    document.getElementById("my_modal_jobseeker").close(); 
   };
 
   const handleCloseModal = (event) => {
@@ -47,13 +53,15 @@ function Login_Jobseeker() {
           <button
             type="button"
             className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'
-            onClick={() => document.getElementById("my_modal_jobseeker").close()}
+            onClick={handleCloseModal}
           >
             ✕
           </button>
+
+
           <h3 className="font-bold text-lg cursor-default">Login</h3>
 
-          <div className='mt-4 space-y-2'>
+          {/*<div className='mt-4 space-y-2'>
             <span>User-Name</span>
             <br />
             <input
@@ -64,7 +72,7 @@ function Login_Jobseeker() {
             />
             <br />
             {errors.text && <span className="text-sm text-red-500">This field is required</span>}
-          </div>
+          </div>*/}
 
           <div className='mt-4 space-y-2'>
             <span>Email</span>
