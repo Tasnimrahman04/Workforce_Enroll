@@ -217,7 +217,8 @@ function Signup_Jobseeker() {
 <div className='flex justify-around mt-8'>
     <button className='bg-purple-600 text-white rounded-md px-3 py-1 hover:bg-purple-800 duration-300 ml-[-20px]'>Signup</button>
     <p>
-        Have account? {" "}<button className='underline text-blue-500 cursor-pointer'
+        Have account? {" "}
+        <button className='underline text-blue-500 cursor-pointer'
         onClick={()=> document.getElementById("my_modal_jobseeker").showModal()}>Login</button>{" "}
         <Login_Jobseeker/>
     </p>

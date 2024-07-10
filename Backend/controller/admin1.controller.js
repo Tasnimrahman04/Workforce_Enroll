@@ -1,17 +1,16 @@
-import User1 from "../model/company.model.js";
+import User2 from "../model/admin1.model.js";
 import bcryptjs from "bcryptjs";
-export const signup1=async(req,res)=>{
+export const signup2=async(req,res)=>{
     try{
-        const {company_name,company_email,company_address,password }=req.body;
-        const user1= await User1.findOne({company_email});
-        if(user1){
+        const {admin_name,admin_email,password }=req.body;
+        const user2= await User2.findOne({admin_email});
+        if(user2){
             return res.status(400).json({message:"User already exists"})
         }
         const hashPassword= await bcryptjs.hash(password,8)
-        const createdUser1=new User1({
-            company_name:company_name,
-            company_email:company_email,
-            company_address:company_address,
+        const createdUser1=new User2({
+            admin_name:admin_name,
+            admin_email:admin_email,           
             password:hashPassword,
         })
         await createdUser1.save()
@@ -23,33 +22,32 @@ export const signup1=async(req,res)=>{
 
     }
 };
-export const login1=async(req,res)=>{
+export const login2=async(req,res)=>{
     try{
-        const {company_name ,company_email, password } = req.body;
+        const {admin_email, password,admin_name} = req.body;
 
-        const user1 = await User1.findOne({ company_email });
+        const user2 = await User2.findOne({ admin_email });
         
-        if (!user1) {
-            return res.status(400).json({ message: "Invalid email or p" });
+        if (!user2) {
+            return res.status(400).json({ message: "Invalid email or password" });
         }
 
         // Check if the company names match
-        if (user1.company_name !== company_name) {
+        if (user2.admin_name !== admin_name) {
             return res.status(400).json({ message: "Invalid company name" });
         }
 
-        const isMatch = await bcryptjs.compare(password, user1.password);
-
+        const isMatch = await bcryptjs.compare(password, user2.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
         res.status(200).json({
             message: "Login successful",
-            user1: {
-                _id: user1._id,
-                company_name: user1.company_name,
-                company_email: user1.company_email,
+            user2: {
+                _id: user2._id,
+                admin_name: user2.admin_name,
+                admin_email: user2.admin_email,
             },
         });
 

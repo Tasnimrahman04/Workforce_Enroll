@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import Login_Company from './Login_Company';
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -11,6 +11,7 @@ function Signup_Company() {
     
     formState: { errors },
   } = useForm()
+  const navigate = useNavigate();
 
   const onSubmit = async(data) => {
     const userInfo={
@@ -24,6 +25,7 @@ function Signup_Company() {
       console.log(res.data)
       if(res.data){
         toast.success('Signup Successful');
+        navigate('/Company_dashboard')
         //alert("Signup Successful")
       }
       localStorage.setItem("Users",JSON.stringify(res.data));
