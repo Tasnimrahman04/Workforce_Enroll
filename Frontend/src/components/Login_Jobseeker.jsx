@@ -23,6 +23,7 @@ function Login_Jobseeker() {
       if(res.data){
         //alert("Login Successful")
         toast.success('Login Successful');
+        navigate('/jobseeker_dashboard');
       }
       localStorage.setItem("Users",JSON.stringify(res.data));
     }

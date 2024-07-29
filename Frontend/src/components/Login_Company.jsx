@@ -1,16 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import toast from 'react-hot-toast';
 
 function Login_Company() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -26,10 +21,9 @@ function Login_Company() {
 
       if (response.data) {
         toast.success('Login Successful');
-        navigate('/company_dashboard'); // Navigate to admin_dashboard page on successful login
+        localStorage.setItem("Users", JSON.stringify(response.data));
+        navigate('/company_dashboard');
       }
-
-      localStorage.setItem("Users", JSON.stringify(response.data));
     } catch (error) {
       console.error("Error:", error);
       toast.error('Wrong Email or Password');
@@ -37,15 +31,15 @@ function Login_Company() {
   };
 
   const handleCloseModal = (event) => {
-    event.preventDefault(); // Prevent form submission
-    document.getElementById("my_modal_company").close(); // Close modal
-    navigate("/"); // Redirect to home route
+    event.preventDefault();
+    document.getElementById("my_modal_company").close();
+    navigate("/");
   };
 
   return (
     <div>
       <dialog id="my_modal_company" className="modal">
-        <div className="modal-box  dark:bg-slate-900 dark:text-white">
+        <div className="modal-box dark:bg-slate-900 dark:text-white">
           <form onSubmit={handleSubmit(onSubmit)} method='dialog'>
             <button
               type="button"
@@ -59,47 +53,48 @@ function Login_Company() {
 
             <div className='mt-4 space-y-2'>
               <span>Company-Name</span>
-              <br/>
+              <br />
               <input 
                 type='text'
                 placeholder='Enter Company-name'
                 className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'
                 {...register("company_name", { required: true })}
               />
-              <br/>
+              <br />
               {errors.company_name && <span className="text-sm text-red-500">This field is required</span>}
             </div>
 
             <div className='mt-4 space-y-2'>
               <span>Company-Email</span>
-              <br/>
+              <br />
               <input 
                 type='email'
                 placeholder='Enter Company-email'
                 className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'
                 {...register("company_email", { required: true })}
               />
-              <br/>
+              <br />
               {errors.company_email && <span className="text-sm text-red-500">This field is required</span>}
             </div>
 
             <div className='mt-4 space-y-2'>
               <span>Password</span>
-              <br/>
+              <br />
               <input 
                 type='password'
                 placeholder='Enter Password'
                 className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'
                 {...register("password", { required: true })}
               />
-              <br/>
+              <br />
               {errors.password && <span className="text-sm text-red-500">This field is required</span>}
             </div>
 
             <div className='flex justify-around mt-4'>
-              <button className='bg-purple-500 text-white rounded-md px-3 py-1 hover:bg-purple-700 duration-300' >Login</button>
+              <button className='bg-purple-500 text-white rounded-md px-3 py-1 hover:bg-purple-700 duration-300'>Login</button>
+              
               <p>
-                Not registered? <Link to="/signup_company" className='underline text-blue-500 cursor-pointer'>Signup</Link>{" "}
+                Not registered? <Link to="/signup_company" className='underline text-blue-500 cursor-pointer'>Signup</Link>
               </p>
             </div>
           </form>

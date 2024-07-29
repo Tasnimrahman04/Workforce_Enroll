@@ -35,12 +35,15 @@ function Login_Admin() {
       toast.error('Wrong Email or Password');
     }
   };
+  
 
   const handleCloseModal = (event) => {
     event.preventDefault(); // Prevent form submission
     document.getElementById("my_modal_admin").close(); // Close modal
     // navigate("/"); // No need to navigate here as it should be handled by form submission
+    setTimeout(() => document.body.classList.remove('modal-open'), 300);
   };
+
 
   return (
     <div>
@@ -98,6 +101,7 @@ function Login_Admin() {
 
             <div className='flex justify-around mt-4'>
               <button className='bg-purple-500 text-white rounded-md px-3 py-1 hover:bg-purple-700 duration-300 cursor-pointer'>Login</button>
+            
             
             </div>
           </form>

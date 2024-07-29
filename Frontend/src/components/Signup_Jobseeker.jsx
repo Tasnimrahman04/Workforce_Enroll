@@ -104,7 +104,7 @@ export default Login_Jobseeker;*/
 
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Login_Jobseeker from './Login_Jobseeker';
 import axios from "axios";
@@ -117,6 +117,7 @@ function Signup_Jobseeker() {
     
     formState: { errors },
   } = useForm()
+  const navigate = useNavigate();
 
   const onSubmit = async(data) => {
     const userInfo={
@@ -129,6 +130,7 @@ function Signup_Jobseeker() {
       console.log(res.data)
       if(res.data){
         toast.success('Signup Successful');
+        navigate('/')
         //alert("Signup Successful")
       }
       localStorage.setItem("Users",JSON.stringify(res.data));

@@ -1,45 +1,47 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Home from './home/Home';
 import About from './components/About';
-import {Route,Routes} from "react-router-dom"
-import Contact_us from './components/Contact_us';
-import Signup_Jobseeker from './components/Signup_Jobseeker';
-import Signup_Company from './components/Signup_Company';
-import Login_Company from './components/Login_Company';
-import Login_Jobseeker from './components/Login_Jobseeker';
-import Login_Admin from './components/Login_Admin';
-import Signup_Admin from './components/Signup_Admin';
-import Admin_Dashboard from './components/Admin_Dashboard';
-import Company_Dashboard from './components/Company_Dashboard';
-import Jobseeker_Dashboard from './components/Jobseeker_Dashboard';
+import ContactUs from './components/Contact_us';
+import SignupJobseeker from './components/Signup_Jobseeker';
+import SignupCompany from './components/Signup_Company';
+import LoginCompany from './components/Login_Company';
+import LoginJobseeker from './components/Login_Jobseeker';
+import LoginAdmin from './components/Login_Admin';
+import SignupAdmin from './components/Signup_Admin';
+import AdminDashboard from './components/Admin_Dashboard';
+import CompanyDashboard from './components/Company_Dashboard';
+import JobseekerDashboard from './components/Jobseeker_Dashboard';
+import AddJobs from './components/Add_Jobs';
+import CreatedJobs from './components/Created_Jobs';
+import AllJobs from './components/All_Jobs';
+import EditJob from './components/EditJob';
 import { Toaster } from 'react-hot-toast';
 
-
-
 function App() {
-   return (
+  return (
     <>
-    <div className="dark:bg-slate-900 dark:text-white">
-    <Routes >
-        <Route path="/" element={<Home/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/contact-us" element={<Contact_us/>}/>
-        <Route path="/signup_jobseeker" element={<Signup_Jobseeker/>}/>
-        <Route path="/signup_company" element={<Signup_Company/>}/>
-        <Route path="/login_company" element={<Login_Company/>}/>
-        <Route path="/login_jobseeker" element={<Login_Jobseeker/>}/>
-        <Route path="/login_admin" element={<Login_Admin/>}/>
-        <Route path="/signup_admin" element={<Signup_Admin/>}/>
-        <Route path="/admin_dashboard" element={<Admin_Dashboard/>}/>
-        <Route path="/company_dashboard" element={<Company_Dashboard/>}/>
-        <Route path="/jobseeker_dashboard" element={<Jobseeker_Dashboard/>}/>
-                       
-      </Routes>
-      <Toaster />
-    </div>
-      
-
-      
+      <div className="dark:bg-slate-900 dark:text-white">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/signup_jobseeker" element={<SignupJobseeker />} />
+          <Route path="/signup_company" element={<SignupCompany />} />
+          <Route path="/login_company" element={<LoginCompany />} />
+          <Route path="/login_jobseeker" element={<LoginJobseeker />} />
+          <Route path="/login_admin" element={<LoginAdmin />} />
+          <Route path="/signup_admin" element={<SignupAdmin />} />
+          <Route path="/admin_dashboard" element={<AdminDashboard />} />
+          <Route path="/company_dashboard" element={<CompanyDashboard />} />
+          <Route path="/jobseeker_dashboard" element={<JobseekerDashboard />} />
+          <Route path="/addjobs" element={<AddJobs />} />
+          <Route path="/created_jobs" element={<CreatedJobs />} />
+          <Route path="/all_jobs" element={<AllJobs />} />
+          <Route path="/edit-job/:jobId" element={<EditJob />} />
+        </Routes>
+        <Toaster />
+      </div>
     </>
   );
 }

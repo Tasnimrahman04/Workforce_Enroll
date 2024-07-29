@@ -32,7 +32,7 @@ export const login2=async(req,res)=>{
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        // Check if the company names match
+        // Checking if the company names match
         if (user2.admin_name !== admin_name) {
             return res.status(400).json({ message: "Invalid company name" });
         }

@@ -56,15 +56,23 @@ function Navbar() {
         <a href="/about">About</a>
       </li>
       <li>
-        <a className="btn" role="button" tabIndex={0} onClick={() => document.getElementById("my_modal_admin").showModal()}>Are you an Admin!</a>
+        <a 
+          className="btn-admin dark:text-white dark:bg-slate-600"
+          role="button"
+          tabIndex={0}
+          onClick={() => document.getElementById("my_modal_admin").showModal()}
+        >
+          Are you an Admin?
+        </a>
         <Login_Admin />
       </li>
     </>
   );
 
+
   return (
     <>
-      <div className={`max-w-screen-2xl container mx-auto md:px-1 py-3 dark:bg-slate-700 dark:text-white fixed top-0 left-0 right-0 z-50 ${sticky ? "sticky-navbar shadow-md bg-base-300 duration-300 transition-all ease-in-out" : ""}`}>
+      <div className={`max-w-screen-2xl container mx-auto md:px-1 py-3 bg-slate-100 dark:bg-slate-700 dark:text-white fixed top-0 left-0 right-0 z-50 ${sticky ? "sticky-navbar shadow-md bg-base-300 duration-300 transition-all ease-in-out" : ""}`}>
 
         <div className="navbar ">
           <div className="navbar-start">
@@ -85,7 +93,7 @@ function Navbar() {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow  ">
                 {navItems}
               </ul>
             </div>
