@@ -17,6 +17,19 @@ import CreatedJobs from './components/Created_Jobs';
 import AllJobs from './components/All_Jobs';
 import EditJob from './components/EditJob';
 import { Toaster } from 'react-hot-toast';
+import JobApplicationForm from './components/JobApplicationForm';
+import Applications from './components/Applications';
+import Pending_Applications from './components/Pending_Applications';
+import JobDetails from './components/JobDetails';
+import Accepted_Applications from './components/Accepted_Applications';
+import Rejected_Applications from './components/Rejected_Applications';
+import EditApplicationForm from './components/EditApplicationForm';
+
+
+
+
+
+
 
 function App() {
   return (
@@ -39,11 +52,24 @@ function App() {
           <Route path="/created_jobs" element={<CreatedJobs />} />
           <Route path="/all_jobs" element={<AllJobs />} />
           <Route path="/edit-job/:jobId" element={<EditJob />} />
+          <Route path="/apply/:jobId" element={<JobApplicationForm />} />
+          <Route path="/applications" element={<Applications />} />
+          <Route path="/applications/:jobId/pending" element={<Pending_Applications />} />
+          <Route path="/accepted_applications/:companyId" element={<Accepted_Applications/>}/>
+          <Route path="/rejected_applications/:companyId" element={<Rejected_Applications />} />
+          {/*<Route path="/applications/:applicationId/edit" element={<EditApplicationForm />} />*/}
+          <Route path="/edit-application/:applicationId" element={<EditApplicationForm />} />
+
+         
+          <Route path="/job-details/:jobId" element={<JobDetails/>} />
+
+
         </Routes>
         <Toaster />
       </div>
     </>
   );
 }
+
 
 export default App;

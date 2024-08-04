@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 function Company_Dashboard() {
   const navigate = useNavigate();
   const [companyName, setCompanyName] = useState('');
+  const[companyId,setCompanyId]=useState('');
+  const [jobId, setJobId] = useState('');
+
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('Users'));
     if (user && user.user1) {
       setCompanyName(user.user1.company_name);
+      setCompanyId(user.user1._id)
     }
   }, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('Users');
     navigate('/');
   };
+
 
   return (
     <div className="h-screen flex flex-col">
@@ -48,6 +55,23 @@ function Company_Dashboard() {
                 Created Jobs
               </button>
             </li>
+            <li className="mb-2">
+            <button
+  onClick={() => navigate(`/accepted_applications/${companyId}`)}
+  className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-md"
+>
+  Accepted Applications
+</button>
+
+            </li>
+            <li className="mb-2">
+              <button
+                onClick={() => navigate(`/rejected_applications/${companyId}`)}
+                className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-md"
+              >
+                Rejected Applications
+              </button>
+            </li>
             {/* Add more sidebar items here */}
           </ul>
         </nav>
@@ -59,4 +83,9 @@ function Company_Dashboard() {
   );
 }
 
+
 export default Company_Dashboard;
+
+
+
+

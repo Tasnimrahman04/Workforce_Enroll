@@ -116,7 +116,7 @@ function EditJob() {
                             type="text"
                             name="companyName"
                             value={formData.companyName}
-                            onChange={handleChange}
+                            //onChange={handleChange}
                             className="w-full p-2 border border-gray-300 rounded dark:bg-slate-700 dark:text-white"
                         />
                     </div>

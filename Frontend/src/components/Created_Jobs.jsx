@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IconButton } from '@mui/material'; 
+import { IconButton, Button } from '@mui/material'; 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Import the back arrow icon
 
 function Created_Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -45,40 +46,64 @@ function Created_Jobs() {
   };
 
   return (
-    <div className="p-6 bg-blue-200 min-h-screen dark:text-slate-200 dark:bg-slate-800">
-      <p><Link to="/company_dashboard" className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:bg-gray-100 dark:hover:bg-slate-600'>✕</Link></p>
-      <h2 className="text-2xl font-bold mb-6">Created Jobs</h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {jobs.map((job, index) => (
-          <div key={index} className="bg-yellow-50 p-6 rounded-md shadow-md dark:bg-slate-300 dark:text-black">
-            <h3 className="text-xl font-semibold mb-2">{job.jobTitle}</h3>
-            <p><strong>Company:</strong> {job.companyName}</p>
-            <p><strong>Location:</strong> {job.location}</p>
-            <p><strong>Work Mode:</strong> {job.workMode}</p>
-            <p><strong>Job Type:</strong> {job.jobType}</p>
-            <p><strong>Category:</strong> {job.jobCategory}</p>
-            <p><strong>Experience Level:</strong> {job.experienceLevel}</p>
-            <p>
-              <strong>Salary Range:</strong> BDT:{job.minSalary} - {job.maxSalary}{' '}
-              {job.negotiable ? '(Negotiable)' : ''}
-            </p>
-            <p><strong>Responsibilities:</strong> {job.responsibilities}</p>
-            <p><strong>Requirements:</strong> {job.requirements}</p>
-            <p><strong>Preferred Qualifications:</strong> {job.preferredQualifications}</p>
-            <p><strong>Benefits:</strong> {job.benefits}</p>
+    <div className="min-h-screen bg-blue-200 dark:text-slate-200 dark:bg-slate-800">
+      {/* Navbar */}
+      <div className="fixed top-0 left-0 right-0 bg-blue-200 dark:bg-slate-800 p-6 z-10 flex justify-between items-center shadow-md">
+        <Link to="/company_dashboard">
+          <IconButton size="small" className="hover:bg-gray-100 dark:hover:bg-slate-600">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <h2 className="text-2xl font-bold">Created Jobs</h2>
+        <div></div> {/* Empty div to balance the layout */}
+      </div>
+      {/* Main Content */}
+      <div className="pt-24 p-6"> {/* Add padding-top to account for the fixed navbar */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {jobs.map((job, index) => (
+            <div key={index} className="bg-yellow-50 p-6 rounded-md shadow-md dark:bg-slate-300 dark:text-black">
+              <div className="border-b-2 border-gray-800 dark:border-gray-200 mb-4 pb-2">
+                <div className="border-2 border-gray-600 dark:border-gray-400 p-2 rounded-md">
+                  <h3 className="text-xl font-semibold mb-2">{job.jobTitle}</h3>
+                </div>
+              </div>
+              <div className="border border-gray-800 dark:border-gray-200 p-4 rounded-md mb-4">
+                <p><strong>Company:</strong> {job.companyName}</p>
+                <p><strong>Location:</strong> {job.location}</p>
+                <p><strong>Work Mode:</strong> {job.workMode}</p>
+                <p><strong>Job Type:</strong> {job.jobType}</p>
+                <p><strong>Category:</strong> {job.jobCategory}</p>
+                <p><strong>Experience Level:</strong> {job.experienceLevel}</p>
+                <p>
+                  <strong>Salary Range:</strong> BDT:{job.minSalary} - {job.maxSalary}{' '}
+                  {job.negotiable ? '(Negotiable)' : ''}
+                </p>
+                <p><strong>Responsibilities:</strong> {job.responsibilities}</p>
+                <p><strong>Requirements:</strong> {job.requirements}</p>
+                <p><strong>Preferred Qualifications:</strong> {job.preferredQualifications}</p>
+                <p><strong>Benefits:</strong> {job.benefits}</p>
 
-            <div className="flex justify-end items-center">
-              <Link to={`/edit-job/${job._id}`}>
-                <IconButton>
-                  <EditIcon />
-                </IconButton>
-              </Link>
-              <IconButton onClick={() => handleDeleteClick(job._id)}>
-                <DeleteIcon />
-              </IconButton>
+                <div className="flex justify-end items-center mt-4">
+                  <Link to={`/edit-job/${job._id}`}>
+                    <IconButton>
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
+                  <IconButton onClick={() => handleDeleteClick(job._id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Link to={`/applications/${job._id}/pending`}>
+                  <Button variant="contained" color="primary">
+                    Applications
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link here
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from 'react-hot-toast';
+
 function Login_Jobseeker() {
   const {
     register,
@@ -12,39 +13,26 @@ function Login_Jobseeker() {
 
   const navigate = useNavigate();
 
-  const onSubmit =async (data) => {
-    const userInfo={
-      email:data.email,
-      password:data.password,
-    }
-    await axios.post("http://localhost:4001/user/login_jobseeker",userInfo)
-    .then((res)=>{
-      console.log(res.data)
-      if(res.data){
-        //alert("Login Successful")
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:4001/user/login_jobseeker", data);
+      const userData = response.data.user;
+
+      if (userData) {
+        localStorage.setItem("Users", JSON.stringify(userData));
         toast.success('Login Successful');
         navigate('/jobseeker_dashboard');
       }
-      localStorage.setItem("Users",JSON.stringify(res.data));
+    } catch (err) {
+      console.log(err);
+      toast.error('Wrong Email or Password');
     }
-  ).catch((err)=>{
-    //if(err.response){
-      console.log(err)
-    //alert("Error:" +err.response.data.message);
-    //alert("Wrong Email or Password")
-    toast.error('Wrong Email or Password');
-    }
-  //}
-
-  )
-  //}; // Log form data for testing
-    document.getElementById("my_modal_jobseeker").close(); 
   };
 
   const handleCloseModal = (event) => {
-    event.preventDefault(); // Prevent form submission
-    document.getElementById("my_modal_jobseeker").close(); // Close modal
-    navigate("/"); // Redirect to home route
+    event.preventDefault();
+    document.getElementById("my_modal_jobseeker").close();
+    navigate("/");
   };
 
   return (
@@ -59,21 +47,7 @@ function Login_Jobseeker() {
             ✕
           </button>
 
-
           <h3 className="font-bold text-lg cursor-default">Login</h3>
-
-          {/*<div className='mt-4 space-y-2'>
-            <span>User-Name</span>
-            <br />
-            <input
-              type='text'
-              placeholder='Enter your user-name'
-              className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'
-              {...register("text", { required: true })}
-            />
-            <br />
-            {errors.text && <span className="text-sm text-red-500">This field is required</span>}
-          </div>*/}
 
           <div className='mt-4 space-y-2'>
             <span>Email</span>
