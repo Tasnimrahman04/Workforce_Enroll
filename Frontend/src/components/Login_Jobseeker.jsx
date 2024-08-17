@@ -1,8 +1,11 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link here
+import React, { useState } from 'react'; // Import useState
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from 'react-hot-toast';
+import { IconButton, InputAdornment, TextField } from '@mui/material'; // Import MUI components
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function Login_Jobseeker() {
   const {
@@ -12,6 +15,7 @@ function Login_Jobseeker() {
   } = useForm();
 
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); // State to handle password visibility
 
   const onSubmit = async (data) => {
     try {
@@ -65,11 +69,24 @@ function Login_Jobseeker() {
           <div className='mt-4 space-y-2'>
             <span>Password</span>
             <br />
-            <input
-              type='password'
+            <TextField
+              type={showPassword ? 'text' : 'password'}
               placeholder='Enter your Password'
-              className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'
+              className='w-80 px-3 py-1 border rounded-md outline-none dark:bg-slate-200 dark:text-slate-900'
               {...register("password", { required: true })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <br />
             {errors.password && <span className="text-sm text-red-500">This field is required</span>}

@@ -2,9 +2,10 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import multer from 'multer'; 
-import path from 'path'; 
-import fs from 'fs'; 
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
 
 import bookRouter from './route/book.route.js';
 import userRouter from './route/user.route.js';
@@ -13,17 +14,21 @@ import user2Router from './route/admin1.route.js';
 import jobsRouter from './route/jobs.route.js';
 import applicationsRouter from './route/applications.route.js';
 
+
 dotenv.config();
+
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 // Ensure the uploads directory exists
 const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
+
 
 // Configure multer storage
 const storage = multer.diskStorage({
@@ -35,8 +40,9 @@ const storage = multer.diskStorage({
   }
 });
 
+
 // Initialize multer with the storage configuration
-const upload = multer({ 
+const upload = multer({
   storage: storage,
   limits: {
     fileSize: 5 * 1024 * 1024 // 5 MB limit
@@ -46,12 +52,14 @@ const upload = multer({
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
 
+
     if (mimetype && extname) {
       return cb(null, true);
     }
     cb(new Error('Only .pdf, .doc, .docx, .jpg, .jpeg, .png files are allowed!'));
   }
 });
+
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(uploadsDir, {
@@ -62,6 +70,7 @@ app.use('/uploads', express.static(uploadsDir, {
   }
 }));
 
+
 // Use the multer middleware directly in the applications route
 app.use('/book', bookRouter);
 app.use('/user', userRouter);
@@ -69,6 +78,7 @@ app.use('/user1', user1Router);
 app.use('/user2', user2Router);
 app.use('/jobs', jobsRouter);
 app.use('/applications', applicationsRouter);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -80,8 +90,10 @@ app.use((err, req, res, next) => {
   next();
 });
 
+
 const PORT = process.env.PORT || 4000;
 const URI = process.env.MongoBDURI;
+
 
 mongoose.connect(URI)
   .then(() => {

@@ -3,15 +3,13 @@ import { useParams, Link } from 'react-router-dom';
 import { Button } from '@mui/material'; 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-function JobDetails() {
+function JobDetails_Jobseeker() {
   const { jobId } = useParams();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pendingCounts, setPendingCounts] = useState(0); // Store pending counts
   const [applicationCounts, setApplicationCounts] = useState(0); // Store total application counts
-  const [acceptedCounts, setAcceptedCounts] = useState(0);
-  const [rejectedCounts, setRejectedCounts] = useState(0);
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -28,12 +26,6 @@ function JobDetails() {
           // Fetch total application counts
           const appCount = await fetchApplicationCounts(jobId);
           setApplicationCounts(appCount);
-
-          // Fetch accepted and rejected counts
-          const acceptedAndRejectedCounts = await fetchAcceptedAndRejectedCounts(data._id);
-          setAcceptedCounts(acceptedAndRejectedCounts.accepted);
-          setRejectedCounts(acceptedAndRejectedCounts.rejected);
-
         } else {
           setError('Failed to fetch job details');
         }
@@ -58,34 +50,6 @@ function JobDetails() {
         console.error('Error fetching pending counts:', error);
         return 0;
       }
-    };
-    
-    const fetchAcceptedAndRejectedCounts = async (jobId) => {
-      const counts = {
-        accepted: 0,
-        rejected: 0,
-      };
-   
-      try {
-        const [acceptedResponse, rejectedResponse] = await Promise.all([
-          fetch(`http://localhost:4001/applications/jobs/${jobId}/accepted-count`),
-          fetch(`http://localhost:4001/applications/jobs/${jobId}/rejected-count`)
-        ]);
-   
-        if (acceptedResponse.ok) {
-          const acceptedData = await acceptedResponse.json();
-          counts.accepted = acceptedData.acceptedCount;
-        }
-   
-        if (rejectedResponse.ok) {
-          const rejectedData = await rejectedResponse.json();
-          counts.rejected = rejectedData.rejectedCount;
-        }
-      } catch (error) {
-        console.error('Error fetching accepted and rejected counts:', error);
-      }
-   
-      return counts;
     };
 
     const fetchApplicationCounts = async (jobId) => {
@@ -116,40 +80,25 @@ function JobDetails() {
 
   const formatDate = (dateString) => {
     if (!dateString) {
-        return "N/A";
+      return "N/A";
     }
-
-    const date = new Date(dateString);
-    const today = new Date();
-    const tomorrow = new Date(today);
     
-    // Reset hours for today and tomorrow
-    today.setHours(0, 0, 0, 0);
-    tomorrow.setDate(today.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0);
-
-    if (date.toISOString().split('T')[0] === today.toISOString().split('T')[0]) {
-        return `Today is the deadline (${date.toISOString().split('T')[0]})`;
-    }
-
-    if (date.toISOString().split('T')[0] === tomorrow.toISOString().split('T')[0]) {
-        return `Tomorrow is the deadline (${date.toISOString().split('T')[0]})`;
-    }
-
+    const date = new Date(dateString);
     return date.toISOString().split('T')[0];
   };
 
   return (
-    <div className="p-6 bg-blue-200 min-h-screen dark:text-slate-200 dark:bg-slate-800 flex items-center justify-center">
-      <div className="max-w-4xl w-full bg-yellow-50 p-4 rounded-md shadow-md dark:bg-slate-300 dark:text-black">
+    <div className="p-6 bg-gradient-to-r from-purple-100 to-orange-200 min-h-screen dark:text-slate-900 dark:bg-gradient-to-r dark:from-gray-500 dark:to-slate-700 flex items-center justify-center">
+      <div className="max-w-4xl w-full bg-gradient-to-r from-yellow-50 to-blue-200 p-4 rounded-md shadow-md dark:bg-gradient-to-r dark:from-slate-800 dark:to-slate-700 dark:text-slate-200">
+      <div className="border border-gray-400 dark:border-gray-800 p-4 rounded-md">
         <p className="absolute top-2 right-2">
-          <Link to="/created_jobs" className='btn btn-sm btn-circle btn-ghost hover:bg-gray-100 dark:hover:bg-slate-600'>
+          <Link to="/applications" className='btn btn-sm btn-circle btn-ghost hover:bg-gray-100 dark:bg-slate-500 dark:hover:bg-slate-600'>
             <ArrowBackIcon />
           </Link>
         </p>
         {job ? (
           <>
-            <h2 className="text-2xl font-bold mb-4">{job.jobTitle}</h2>
+            <h2 className="text-2xl font-bold mb-4 border border-pink-300 dark:border-slate-400">{job.jobTitle}</h2>
             <p><strong>Company:</strong> {job.companyName}</p>
             <p><strong>Location:</strong> {job.location}</p>
             <p><strong>Work Mode:</strong> {job.workMode}</p>
@@ -167,17 +116,8 @@ function JobDetails() {
             <p><strong>Posted:</strong> {formatDate(job.createdAt)}</p>
             <p><strong>Deadline:</strong> {formatDate(job.deadline)}</p>
             <p><strong>Applications Count:</strong> {applicationCounts || 0}</p>
-            <p><strong>Accepted Applications:</strong> {acceptedCounts || 0}</p>
-            <p><strong>Rejected Applications:</strong> {rejectedCounts || 0}</p>
             <div className="flex justify-end mt-4">
-              <Link to={`/applications/${job._id}/pending`}>
-                <Button variant="contained" color="primary" className="relative">  
-                    View Applications
-                    <span className="absolute -top-2 -right-2 bg-pink-400 dark:bg-purple-600 text-white text-xs font-bold rounded-full px-2 py-1">
-                      {pendingCounts}
-                    </span>
-                </Button>
-              </Link>
+              
             </div>
           </>
         ) : (
@@ -185,7 +125,8 @@ function JobDetails() {
         )}
       </div>
     </div>
+    </div>
   );
 }
 
-export default JobDetails;
+export default JobDetails_Jobseeker;

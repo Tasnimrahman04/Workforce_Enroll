@@ -11,7 +11,12 @@ import {
     rejectApplication,
     getAcceptedApplications,
     getRejectedApplications,
-    deleteApplicationFromCompany
+    deleteApplicationFromCompany,
+    getApplicationCountsForJob,
+    getAcceptedApplicationsCountForJob,
+    getRejectedApplicationsCountForJob,
+    hasUserAppliedForJob,
+    deleteApplicationFromJobseeker
     
 
 } from '../controller/applications.controller.js';
@@ -90,5 +95,19 @@ router.get('/company/:companyId/rejected', getRejectedApplications);
 // DELETE /applications/:applicationId/delete
 router.delete('/:applicationId/delete', deleteApplicationFromCompany);
 
+
+// routes/applications.route.js
+router.get('/job/:jobId/counts', getApplicationCountsForJob);
+
+// Add routes for counting accepted and rejected applications
+router.get('/jobs/:jobId/accepted-count', getAcceptedApplicationsCountForJob);
+router.get('/jobs/:jobId/rejected-count', getRejectedApplicationsCountForJob);
+
+// Define the route for checking application status
+router.get('/check-application/:userId/:jobId', hasUserAppliedForJob);
+
+
+// New route to update application status to 'Deletedby' by jobseeker
+router.delete('/jobseeker/:applicationId', deleteApplicationFromJobseeker);
 
 export default router;

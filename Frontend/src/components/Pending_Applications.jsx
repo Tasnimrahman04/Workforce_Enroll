@@ -18,7 +18,7 @@ function Pending_Applications() {
           const data = await responseApplications.json();
           console.log('Applications data:', data); // Debugging
           if (responseApplications.ok) {
-              setApplications(data);
+              setApplications(data.applications);
           } else {
               setError('Failed to fetch applications');
           }
@@ -73,7 +73,6 @@ const handleReject = async (applicationId) => {
     }
 };
 
-
   if (loading) return (
     <div className="flex justify-center items-center h-40">
       <span className="text-xl">Loading...</span>
@@ -81,6 +80,8 @@ const handleReject = async (applicationId) => {
   );
 
   if (error) return <p className="text-red-600">{error}</p>;
+
+  console.log('Applications length:', applications.length);
 
   return (
     <div className="p-6 bg-blue-200 min-h-screen dark:text-slate-200 dark:bg-slate-800">

@@ -13,7 +13,6 @@ function JobApplicationForm() {
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
-
     useEffect(() => {
         // Retrieve userId from localStorage
         const storedUserId = localStorage.getItem('UserId');
@@ -103,8 +102,6 @@ function JobApplicationForm() {
             [name]: files[0]
         }));
     };
-    
-
 
     const handleNext = async () => {
         const isValid = await trigger();
@@ -113,14 +110,13 @@ function JobApplicationForm() {
         }
     };
 
-
     const handleBack = () => {
         setPage(page - 1);
     };
 
 
     return (
-        <div className="flex h-screen items-center justify-center bg-gray-200 dark:bg-slate-600">
+        <div className="flex h-screen items-center justify-center bg-gray-200 dark:bg-gradient-to-r dark:from-slate-600 dark:to-slate-700">
             <div className="relative w-[600px] bg-white p-6 rounded-md shadow-md dark:bg-slate-900 dark:text-white">
                 <p className="absolute right-2 top-2">
                     <Link to="/all_jobs" className='btn btn-sm btn-circle btn-ghost hover:bg-gray-200 dark:hover:bg-slate-600'>
@@ -130,108 +126,107 @@ function JobApplicationForm() {
 
 
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
-                    <h2 className="text-2xl font-bold mb-6 border-b-2 pb-2 border-gray-300 dark:border-slate-700">Apply for Job</h2>
+                    <h2 className="text-2xl font-bold mb-6 border-b-2 pb-2 border-gray-300 dark:border-slate-700 dark:text-gray-300">Apply for Job</h2>
 
 
                     {page === 1 && (
                         <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700">
-                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700">Job Information</h3>
-                            <div className="mb-3">
+                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700 dark:text-gray-300">Job Information</h3>
+                            <div className="mb-3 dark:text-gray-300">
                                 <label className="block mb-1">Job Title:</label>
-                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white">
+                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300">
                                     {job?.jobTitle || 'N/A'}
                                 </p>
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Company Name:</label>
-                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white">
+                                <label className="block mb-1 dark:text-gray-300">Company Name:</label>
+                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300">
                                     {job?.companyName || 'N/A'}
                                 </p>
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Location:</label>
-                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white">
+                                <label className="block mb-1 dark:text-gray-300">Location:</label>
+                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300">
                                     {job?.location || 'N/A'}
                                 </p>
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Salary Range:</label>
-                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white">
+                                <label className="block mb-1 dark:text-gray-300">Salary Range:</label>
+                                <p className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300">
                                     {job?.minSalary} - {job?.maxSalary}
                                 </p>
                             </div>
                             <div className="flex justify-end">
-                                <button type="button" onClick={handleNext} className="btn btn-primary">Next</button>
+                                <button type="button" onClick={handleNext} className="bg-blue-500 text-white hover:bg-blue-700 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 px-4 py-2 rounded">Next</button>
                             </div>
                         </div>
                     )}
 
 
                     {page === 2 && (
-                        <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700">
-                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700">Personal Details</h3>
+                        <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700 dark:text-gray-300">
+                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700 dark:text-gray-300">Personal Details</h3>
                             <div className="mb-3">
-                                <label className="block mb-1">Full Name:</label>
-                                <input type="text" {...register('fullName', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                                <label className="block mb-1 dark:text-gray-300">Full Name:</label>
+                                <input type="text" {...register('fullName', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300" />
                                 {errors.fullName && <p className="text-red-500 text-sm">This field is required</p>}
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Email Address:</label>
-                                <input type="email" {...register('email', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                                <label className="block mb-1 dark:text-gray-300">Email Address:</label>
+                                <input type="email" {...register('email', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300" />
                                 {errors.email && <p className="text-red-500 text-sm">This field is required</p>}
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Phone Number:</label>
-                                <input type="tel" {...register('phoneNumber', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                                <label className="block mb-1 dark:text-gray-300">Phone Number:</label>
+                                <input type="tel" {...register('phoneNumber', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300" />
                                 {errors.phoneNumber && <p className="text-red-500 text-sm">This field is required</p>}
                             </div>
                             <div className="flex justify-between">
-                                <button type="button" onClick={handleBack} className="btn btn-secondary">Back</button>
-                                <button type="button" onClick={handleNext} className="btn btn-primary">Next</button>
+                                <button type="button" onClick={handleBack} className="bg-pink-700 text-white hover:bg-pink-900 dark:bg-pink-900 dark:text-white dark:hover:bg-pink-800 px-4 py-2 rounded">Back</button>
+                                <button type="button" onClick={handleNext} className="bg-blue-500 text-white hover:bg-blue-700 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 px-4 py-2 rounded">Next</button>
                             </div>
                         </div>
                     )}
 
 
                     {page === 3 && (
-                        <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700">
-                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700">Application Details</h3>
+                        <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700 dark:text-gray-300">
+                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700 dark:text-gray-300">Application Details</h3>
                             <div className="mb-3">
-                                <label className="block mb-1">Expected Salary:</label>
-                                <input type="number" {...register('expectedSalary', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                                <label className="block mb-1 dark:text-gray-300">Expected Salary:</label>
+                                <input type="number" {...register('expectedSalary', { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300" />
                                 {errors.expectedSalary && <p className="text-red-500 text-sm">This field is required</p>}
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Current/Most Recent Job Title:</label>
-                                <input type="text" {...register('currentJobTitle')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                                <label className="block mb-1 dark:text-gray-300">Current/Most Recent Job Title:</label>
+                                <input type="text" {...register('currentJobTitle')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300" />
                             </div>
                             <div className="mb-3">
-                                <label className="block mb-1">Current/Most Recent Job Employer:</label>
-                                <input type="text" {...register('currentJobEmployer')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                                <label className="block mb-1 dark:text-gray-300">Current/Most Recent Job Employer:</label>
+                                <input type="text" {...register('currentJobEmployer')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-gray-300" />
                             </div>
                             {/*<div className="mb-3">
                                 <label className="block mb-1">Cover Letter (optional):</label>
                                 <input type="file" name="coverLetter" onChange={handleFileChange} className="w-full" />
                             </div>*/}
-                            
 
                             <div className="flex justify-between">
-                                <button type="button" onClick={handleBack} className="btn btn-secondary">Back</button>
-                                <button type="button" onClick={handleNext} className="btn btn-primary">Next</button>
+                                <button type="button" onClick={handleBack} className="bg-pink-700 text-white hover:bg-pink-900 dark:bg-pink-900 dark:text-white dark:hover:bg-pink-800 px-4 py-2 rounded">Back</button>
+                                <button type="button" onClick={handleNext} className="bg-blue-500 text-white hover:bg-blue-700 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 px-4 py-2 rounded">Next</button>
                             </div>
                         </div>
                     )}
 
 
                     {page === 4 && (
-                        <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700">
-                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700">Upload Documents</h3>
+                        <div className="border-2 p-4 rounded-md border-gray-300 dark:border-slate-700 dark:text-gray-300">
+                            <h3 className="text-xl font-semibold mb-2 border-b-2 pb-2 border-gray-300 dark:border-slate-700 dark:text-gray-300">Upload Documents</h3>
                             {/*<div className="mb-3">
                                 <label className="block mb-1">CV:</label>
                                 <input type="file" name="cv" onChange={handleFileChange} className="w-full" />
                             </div>*/}
                             <div className="mb-3">
-                               <label className="block mb-1">Cover Letter (optional):</label>
+                               <label className="block mb-1 dark:text-gray-300">Cover Letter (optional):</label>
                                  <input type="file" name="coverLetter" onChange={handleFileChange} className="w-full" />
                                     {files.coverLetter && (
                                        <p className="text-gray-700 dark:text-gray-300 mt-2">
@@ -240,7 +235,7 @@ function JobApplicationForm() {
                                     )}
                             </div>
                             <div className="mb-3">
-    <label className="block mb-1">CV:</label>
+    <label className="block mb-1 dark:text-gray-300">CV:</label>
     <input type="file" name="cv" onChange={handleFileChange} className="w-full" />
     {files.cv && (
         <p className="text-gray-700 dark:text-gray-300 mt-2">
@@ -257,7 +252,7 @@ function JobApplicationForm() {
                                 {errors.terms && <p className="text-red-500 text-sm">You must agree to the terms</p>}
                             </div>
                             <div className="flex justify-between">
-                                <button type="button" onClick={handleBack} className="btn btn-secondary">Back</button>
+                                <button type="button" onClick={handleBack} className="bg-pink-700 text-white hover:bg-pink-900 dark:bg-pink-900 dark:text-white dark:hover:bg-pink-800 px-4 py-2 rounded">Back</button>
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </div>
                         </div>

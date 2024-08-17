@@ -240,8 +240,8 @@ export const deleteApplication = async (req, res) => {
 
 
 // Get all applications for a specific job based on status (pending, accepted, rejected)
-// controllers/applications.controller.js
-export const getApplicationsForJob = async (req, res) => {
+// Get all applications for a specific job based on status (pending, accepted, rejected)
+export const getApplicationsForJob1 = async (req, res) => {
     const { jobId } = req.params;
     const { status } = req.query; // Get the status from the query parameter
 
@@ -251,6 +251,95 @@ export const getApplicationsForJob = async (req, res) => {
     }
 
     try {
+        const applications = await Application.find(query)
+            .populate({
+                path: 'userId',
+                select: 'fullName email phoneNumber',
+                model: 'User'
+            })
+            .lean();
+
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        applications.forEach(application => {
+            if (application.coverLetter) {
+                application.coverLetterUrl = `${baseUrl}${application.coverLetter}`;
+            }
+            if (application.cv) {
+                application.cvUrl = `${baseUrl}${application.cv}`;
+            }
+        });
+
+        // Count pending applications
+        const pendingCount = await Application.countDocuments({ jobId, status: 'Pending' });
+
+        return res.status(200).json({ applications, pendingCount });
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+
+// controllers/applications.controller.js
+export const getApplicationsForJob2 = async (req, res) => {
+    const { jobId } = req.params;
+    const { status } = req.query; // Get the status from the query parameter
+
+
+    const query = { jobId };
+    if (status) {
+        query.status = status; // Make sure status matches the case in your database
+    }
+
+
+    try {
+        const applications = await Application.find(query)
+            .populate({
+                path: 'userId',
+                select: 'fullName email phoneNumber',
+                model: 'User'
+            })
+            .lean();
+
+
+        console.log('Fetched Applications:', applications); // Debugging
+
+
+        if (applications.length === 0) {
+            console.log('No applications found for jobId:', jobId, 'with status:', status);
+        }
+
+
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        applications.forEach(application => {
+            if (application.coverLetter) {
+                application.coverLetterUrl = `${baseUrl}${application.coverLetter}`;
+            }
+            if (application.cv) {
+                application.cvUrl = `${baseUrl}${application.cv}`;
+            }
+        });
+
+
+        return res.status(200).json(applications);
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+
+let pendingApplicationsCount=0
+export const getApplicationsForJob = async (req, res) => {
+    const { jobId } = req.params;
+    const { status = 'Pending' } = req.query; // Default status to 'Pending'
+
+    const query = { jobId };
+    if (status) {
+        query.status = status; // Ensure status matches the case in your database
+    }
+
+    try {
+        console.log('Query:', query); // Log the query for debugging
+
         const applications = await Application.find(query)
             .populate({
                 path: 'userId',
@@ -275,14 +364,18 @@ export const getApplicationsForJob = async (req, res) => {
             }
         });
 
-        return res.status(200).json(applications);
+        // Update the pending applications count
+        pendingApplicationsCount = applications.filter(app => app.status === 'Pending').length;
+
+        return res.status(200).json({
+            applications,
+            pendingApplicationsCount // Send the pending applications count in the response
+        });
     } catch (error) {
+        console.error('Error fetching applications:', error); // Enhanced error logging
         return res.status(500).json({ message: 'Server error', error });
     }
 };
-
-
-
 
 
 
@@ -406,7 +499,7 @@ export const getRejectedApplications = async (req, res) => {
 };
 
 // Delete an application (company side only)
-export const deleteApplicationFromCompany = async (req, res) => {
+export const deleteApplicationFromCompany1 = async (req, res) => {
     const { applicationId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(applicationId)) {
@@ -425,6 +518,7 @@ export const deleteApplicationFromCompany = async (req, res) => {
         }
 
         await Application.findByIdAndUpdate(applicationId, { $set: { status: 'Deleted' } }); // Mark as deleted
+        
 
         return res.status(200).json({ message: 'Application deleted successfully' });
     } catch (error) {
@@ -433,8 +527,150 @@ export const deleteApplicationFromCompany = async (req, res) => {
     }
 };
 
+export const deleteApplicationFromCompany = async (req, res) => {
+    const { applicationId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(applicationId)) {
+        return res.status(400).json({ message: 'Invalid applicationId format' });
+    }
+
+    try {
+        const application = await Application.findById(applicationId);
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
+
+        // Check if the application status is already "Rejected" or not
+        if (application.status !== 'Rejected') {
+            return res.status(403).json({ message: 'Only rejected applications can be deleted' });
+        }
+
+        // Update the status to "Deleted" instead of removing the application
+        const updatedApplication = await Application.findByIdAndUpdate(
+            applicationId,
+            { status: 'Deleted' }, // Update status to "Deleted"
+            { new: true } // Return the updated document
+        );
+
+        return res.status(200).json({ message: 'Application deleted successfully', application: updatedApplication });
+    } catch (error) {
+        console.error('Error deleting application:', error);
+        return res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+
+// controllers/applications.controller.js
+export const getApplicationCountsForJob = async (req, res) => {
+    const { jobId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+        return res.status(400).json({ message: 'Invalid jobId format' });
+    }
+
+    try {
+        // Count the total number of applications
+        const totalCount = await Application.countDocuments({ jobId });
+
+        return res.status(200).json({
+            totalCount
+        });
+    } catch (error) {
+        console.error('Error fetching application counts:', error);
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
 
 
+// Count the number of accepted applications for a specific job
+export const getAcceptedApplicationsCountForJob = async (req, res) => {
+    const { jobId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+        return res.status(400).json({ message: 'Invalid jobId format' });
+    }
+
+    try {
+        const acceptedCount = await Application.countDocuments({ jobId, status: 'Accepted' });
+        return res.status(200).json({ acceptedCount });
+    } catch (error) {
+        console.error('Error counting accepted applications:', error);
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+// Count the number of rejected applications for a specific job
+export const getRejectedApplicationsCountForJob = async (req, res) => {
+    const { jobId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+        return res.status(400).json({ message: 'Invalid jobId format' });
+    }
+
+    try {
+        const rejectedCount = await Application.countDocuments({ jobId, status: 'Rejected' });
+        return res.status(200).json({ rejectedCount });
+    } catch (error) {
+        console.error('Error counting rejected applications:', error);
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+// Check if a user has applied for a specific job
+export const hasUserAppliedForJob = async (req, res) => {
+    const { userId, jobId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(jobId)) {
+        return res.status(400).json({ message: 'Invalid userId or jobId format' });
+    }
+
+    try {
+        // Check if there is an application by this user for this job
+        const application = await Application.findOne({ userId, jobId });
+
+        // Return 'yes' if an application exists, otherwise 'no'
+        if (application) {
+            return res.status(200).json({ hasApplied: 'yes' });
+        } else {
+            return res.status(200).json({ hasApplied: 'no' });
+        }
+    } catch (error) {
+        console.error('Error checking application status:', error);
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
 
 
+// New function to update application status to 'Deletedby'
+export const deleteApplicationFromJobseeker = async (req, res) => {
+    const { applicationId } = req.params;
+    const { userId } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(applicationId)) {
+        return res.status(400).json({ message: 'Invalid applicationId format' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: 'Invalid userId format' });
+    }
+
+    try {
+        const application = await Application.findById(applicationId);
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
+
+        if (application.userId.toString() !== userId) {
+            return res.status(403).json({ message: 'You are not authorized to delete this application' });
+        }
+
+        // Update the application status to 'Deletedby'
+        application.status = 'Deletedby';
+        await application.save();
+
+        return res.status(200).json({ message: 'Application status updated to Deletedby' });
+    } catch (error) {
+        console.error('Error updating application status:', error);
+        return res.status(500).json({ message: 'Server error', error });
+    }
+};
 

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const jobSchema = new mongoose.Schema({
   jobTitle: {
     type: String,
@@ -33,6 +34,10 @@ const jobSchema = new mongoose.Schema({
     required: true,
     enum: ["entry-level", "mid-level", "senior-level", "manager", "director"],
   },
+  deadline: {
+    type: Date,
+    required: true,
+  },
   minSalary: {
     type: Number,
     required: true,
@@ -64,10 +69,18 @@ const jobSchema = new mongoose.Schema({
     ref: 'User1',
     //ref: 'Company',
     required: true,
-  }
+  },
+  //
+  bookmarkedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  //bookmarkedByCompany: [{type: mongoose.Schema.Types.ObjectId,ref: 'User1'}]
+  bookmarkedByCompany: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });
+
 
 const Job = mongoose.model("Job", jobSchema);
 export default Job;

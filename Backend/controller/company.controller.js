@@ -1,6 +1,7 @@
 import User1 from "../model/company.model.js";
 import bcryptjs from "bcryptjs";
 
+
 export const signup1 = async (req, res) => {
   try {
     const { company_name, company_email, company_address, password } = req.body;
@@ -53,3 +54,5 @@ export const login1 = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+

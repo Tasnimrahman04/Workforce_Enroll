@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams,Link } from 'react-router-dom';
 
 function EditApplicationForm() {
     const { applicationId } = useParams();
@@ -89,8 +89,13 @@ function EditApplicationForm() {
     };
 
     return (
-        <div className="flex h-screen items-center justify-center bg-gray-200 dark:bg-slate-600">
-            <div className="relative w-[600px] bg-white p-6 rounded-md shadow-md dark:bg-slate-900 dark:text-white">
+        <div className="flex h-screen items-center justify-center bg-gradient-to-r from-pink-100 to-pink-200  dark:bg-gradient-to-r dark:from-slate-800 dark:to-slate-900">
+            <div className="relative w-[600px] bg-gradient-to-r from-yellow-100 to-orange-200  p-6 rounded-md shadow-md dark:bg-gradient-to-r dark:from-slate-500 dark:to-gray-500 dark:text-slate-200">
+            <p className="absolute right-2 top-2">
+                    <Link to="/applications" className='btn btn-sm btn-circle btn-ghost hover:bg-orange-300 dark:hover:bg-slate-600'>
+                        ✕
+                    </Link>
+                </p>
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
                     <h2 className="text-2xl font-bold mb-6 border-b-2 pb-2 border-gray-300 dark:border-slate-700">Edit Application</h2>
                     
@@ -116,19 +121,19 @@ function EditApplicationForm() {
                     </div>
                     <div className="mb-3">
                         <label className="block mb-1">Current/Most Recent Job Title:</label>
-                        <input type="text" {...register('currentJobTitle')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                        <input type="text" {...register('currentJobTitle')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-slate-200" />
                     </div>
                     <div className="mb-3">
                         <label className="block mb-1">Current/Most Recent Job Employer:</label>
-                        <input type="text" {...register('currentJobEmployer')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-white" />
+                        <input type="text" {...register('currentJobEmployer')} className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-slate-800 dark:text-slate-200" />
                     </div>
                     <div className="mb-3">
-                        <label className="block mb-1">Cover Letter:</label>
+                        <label className="block mb-1 dark:text-slate-200">Cover Letter:</label>
                         <input type="file" name="coverLetter" onChange={handleFileChange} className="block" />
                         <p>Current file: {files.coverLetterName}</p>
                     </div>
                     <div className="mb-3">
-                        <label className="block mb-1">CV:</label>
+                        <label className="block mb-1 dark:text-slate-200">CV:</label>
                         <input type="file" name="cv" onChange={handleFileChange} className="block" />
                         <p>Current file: {files.cvName}</p>
                     </div>
@@ -139,7 +144,7 @@ function EditApplicationForm() {
                         </label>
                         {errors.termsAccepted && <p className="text-red-500 text-sm">You must accept the terms and conditions</p>}
                     </div>
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Update Application</button>
+                    <button type="submit" className="bg-blue-500 dark:bg-blue-900 dark:hover:bg-blue-800 text-white px-4 py-2 rounded-md">Update Application</button>
                 </form>
             </div>
         </div>

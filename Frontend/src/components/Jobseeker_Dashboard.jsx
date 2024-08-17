@@ -57,6 +57,14 @@ function Jobseeker_Dashboard() {
               </button>
             </li>
             {/* Add more sidebar items here */}
+            <li className="mb-2">
+              <button
+                onClick={() => navigate('/bookmarked')} // New button to navigate to Bookmarked Jobs
+                className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-md"
+              >
+                Bookmarked Jobs
+              </button>
+            </li>
           </ul>
         </nav>
         <div className="flex-1 p-4">

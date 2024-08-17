@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
+
+
 function Company_Dashboard() {
   const navigate = useNavigate();
   const [companyName, setCompanyName] = useState('');
   const[companyId,setCompanyId]=useState('');
   const [jobId, setJobId] = useState('');
+
+
 
 
   useEffect(() => {
@@ -18,10 +22,14 @@ function Company_Dashboard() {
   }, []);
 
 
+
+
   const handleLogout = () => {
     localStorage.removeItem('Users');
     navigate('/');
   };
+
+
 
 
   return (
@@ -63,6 +71,7 @@ function Company_Dashboard() {
   Accepted Applications
 </button>
 
+
             </li>
             <li className="mb-2">
               <button
@@ -72,6 +81,12 @@ function Company_Dashboard() {
                 Rejected Applications
               </button>
             </li>
+            <button
+                onClick={() => navigate('/company-bookmarked-jobs')} // New button to navigate to Bookmarked Jobs
+                className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-md"
+              >
+                Bookmarked Jobs
+              </button>
             {/* Add more sidebar items here */}
           </ul>
         </nav>
@@ -84,8 +99,6 @@ function Company_Dashboard() {
 }
 
 
+
+
 export default Company_Dashboard;
-
-
-
-

@@ -1,13 +1,15 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import axios from "axios";
-
+import { IconButton, InputAdornment, TextField } from '@mui/material'; // Import MUI components
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 function Signup_Admin() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate(); // Initialize useNavigate
-
+  const [showPassword, setShowPassword] = useState(false);
   const onSubmit = async(data) => {
     const userInfo={
         admin_name:data.admin_name,
@@ -35,30 +37,6 @@ function Signup_Admin() {
   
     )
     };
-
-
-
-
-
-
-
-
-
-
-
-
-    /*console.log(data);
-    toast.success('Admin added successfully!');
-    handleCloseModal();
-    ; // Navigate to the home page
-  };
-
-  const handleCloseModal = () => {
-    const modal = document.getElementById("my_modal_admin");
-    if (modal) {
-      modal.style.display = "none";
-    }
-  };*/
 
   return (
     <>
@@ -97,20 +75,31 @@ function Signup_Admin() {
                 {errors.admin_email && <span className="text-sm text-red-500">This field is required</span>}
               </div>
 
-              <div className='mt-4 space-y-2 font-bold'>
-                <span>Password</span>
-                <br />
-                <input
-                  type='password'
-                  placeholder='Enter Password'
-                  className='w-80 px-3 py-1 border border-orange-300 rounded-md outline-none dark:text-slate-900'
-                  {...register("password", { required: true })}
-                  //autoComplete="current-password"
-                />
-                <br />
-                
-                {errors.password && <span className="text-sm text-red-500">This field is required</span>}
-              </div>
+              <div className='mt-4 space-y-2'>
+              <span>Password</span>
+              <br />
+              <TextField
+                type={showPassword ? 'text' : 'password'}
+                placeholder='Enter Password'
+                className='w-80 px-3 py-1 border border-orange-300 rounded-md outline-none  dark:bg-slate-200 dark:text-slate-900'
+                {...register("password", { required: true })}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <br />
+              {errors.password && <span className="text-sm text-red-500">This field is required</span>}
+            </div>
 
               <div className='flex justify-around mt-4'>
                 <button className='bg-purple-500 text-white rounded-md px-3 py-1 hover:bg-purple-700 duration-300 cursor-pointer'>Add</button>

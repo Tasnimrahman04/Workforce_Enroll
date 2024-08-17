@@ -66,7 +66,7 @@ cvOriginalName: {
   //accept/reject
   status: {
     type: String,
-    enum: ['Pending', 'Accepted', 'Rejected'],
+    enum: ['Pending', 'Accepted', 'Rejected','Deleted','Deletedby'],
     default: 'Pending'
 },
 

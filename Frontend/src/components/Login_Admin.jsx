@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react'; // Import useState
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from 'react-hot-toast';
+import { IconButton, InputAdornment, TextField } from '@mui/material'; // Import MUI components
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function Login_Admin() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); // State to handle password visibility
 
   const onSubmit = async (data) => {
     try {
@@ -26,7 +25,7 @@ function Login_Admin() {
 
       if (response.data) {
         toast.success('Login Successful');
-        navigate('/admin_dashboard'); // Navigate to admin_dashboard page on successful login
+        navigate('/admin_dashboard');
       }
 
       localStorage.setItem("Users", JSON.stringify(response.data));
@@ -35,15 +34,12 @@ function Login_Admin() {
       toast.error('Wrong Email or Password');
     }
   };
-  
 
   const handleCloseModal = (event) => {
     event.preventDefault(); // Prevent form submission
     document.getElementById("my_modal_admin").close(); // Close modal
-    // navigate("/"); // No need to navigate here as it should be handled by form submission
     setTimeout(() => document.body.classList.remove('modal-open'), 300);
   };
-
 
   return (
     <div>
@@ -88,12 +84,25 @@ function Login_Admin() {
 
             <div className='mt-4 space-y-2'>
               <span>Password</span>
-              <br/>
-              <input 
-                type='password'
+              <br />
+              <TextField
+                type={showPassword ? 'text' : 'password'}
                 placeholder='Enter Password'
-                className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900'
+                className='w-80 px-3 py-1 border rounded-md outline-none dark:text-slate-900 dark:bg-slate-200'
                 {...register("password", { required: true })}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <br/>
               {errors.password && <span className="text-sm text-red-500">This field is required</span>}
@@ -101,8 +110,6 @@ function Login_Admin() {
 
             <div className='flex justify-around mt-4'>
               <button className='bg-purple-500 text-white rounded-md px-3 py-1 hover:bg-purple-700 duration-300 cursor-pointer'>Login</button>
-            
-            
             </div>
           </form>
         </div>

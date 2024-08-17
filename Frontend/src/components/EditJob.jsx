@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link,useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
+const formatDate = (dateString) => {
+    if (!dateString) {
+        return "N/A";
+    }
+    
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+};
 function EditJob() {
     const { jobId } = useParams();
     const navigate = useNavigate();
@@ -21,6 +29,7 @@ function EditJob() {
         requirements: '',
         preferredQualifications: '',
         benefits: '',
+        deadline:''
     });
 
     useEffect(() => {
@@ -45,6 +54,7 @@ function EditJob() {
                         requirements: data.requirements || '',
                         preferredQualifications: data.preferredQualifications || '',
                         benefits: data.benefits || '',
+                        deadline: data.deadline || '',
                     });
                 } else {
                     toast.error('Failed to fetch job details');
@@ -183,7 +193,8 @@ function EditJob() {
                             <option value="entry-level">Entry-level</option>
                             <option value="mid-level">Mid-level</option>
                             <option value="senior-level">Senior-level</option>
-                            <option value="executive-level">Executive-level</option>
+                            <option value="manager">Manager</option>
+                            <option value="director">Director</option>
                         </select>
                     </div>
                     <div>
@@ -248,6 +259,16 @@ function EditJob() {
                         <textarea
                             name="benefits"
                             value={formData.benefits}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded dark:bg-slate-700 dark:text-white"
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-2 dark:text-white">Deadline</label>
+                        <input
+                            type="date"
+                            name="deadline"
+                            value={formatDate(formData.deadline)}
                             onChange={handleChange}
                             className="w-full p-2 border border-gray-300 rounded dark:bg-slate-700 dark:text-white"
                         />

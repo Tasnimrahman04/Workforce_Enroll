@@ -24,6 +24,9 @@ import JobDetails from './components/JobDetails';
 import Accepted_Applications from './components/Accepted_Applications';
 import Rejected_Applications from './components/Rejected_Applications';
 import EditApplicationForm from './components/EditApplicationForm';
+import Bookmarked_Jobs from './components/Bookmarked_Jobs';
+import Company_Bookmarked_Jobs from './components/Company_Bookmarked_Jobs';
+import JobDetails_Jobseeker from './components/JobDetails_Jobseeker';
 
 
 
@@ -59,10 +62,13 @@ function App() {
           <Route path="/rejected_applications/:companyId" element={<Rejected_Applications />} />
           {/*<Route path="/applications/:applicationId/edit" element={<EditApplicationForm />} />*/}
           <Route path="/edit-application/:applicationId" element={<EditApplicationForm />} />
+          <Route path="/bookmarked" element={<Bookmarked_Jobs/>} />
+          <Route path="/company-bookmarked-jobs" element={<Company_Bookmarked_Jobs/>} />
+          
 
          
           <Route path="/job-details/:jobId" element={<JobDetails/>} />
-
+          <Route path="/job-details-jobseeker/:jobId" element={<JobDetails_Jobseeker/>} />
 
         </Routes>
         <Toaster />

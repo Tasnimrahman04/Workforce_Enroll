@@ -203,6 +203,16 @@ function Add_Jobs() {
                                     />
                                     <span className="ml-2">Negotiable</span>
                                 </div>
+                                <div className="mb-3">
+                              <label className="block mb-1">Deadline:</label>
+                                <input
+                                     type="date"
+                                     placeholder='Select deadline'
+                                     {...register("deadline", { required: true })}
+                                     className="w-full px-3 py-2 border border-gray-300 rounded-md dark:text-black"
+                                    />
+                                    {errors.deadline && <span className="text-red-500 text-sm">This field is required</span>}
+                            </div>
                             </div>
                             <div className="flex justify-between mt-4">
                                 <button
@@ -264,6 +274,7 @@ function Add_Jobs() {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md dark:text-black"
                                 />
                             </div>
+                            
                             <div className="flex justify-between mt-4">
                                 <button
                                     type="button"
