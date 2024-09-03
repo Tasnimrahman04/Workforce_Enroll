@@ -46,3 +46,13 @@ export const login = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const getJobseekers = async (req, res) => {
+    try {
+        const jobseekers = await User.find({}, 'fullname email'); 
+        res.status(200).json(jobseekers);
+    } catch (error) {
+        console.log("Error: " + error.message);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
