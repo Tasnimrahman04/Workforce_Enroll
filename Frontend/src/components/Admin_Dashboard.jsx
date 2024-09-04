@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Admin_Dashboard() {
   const [jobseekers, setJobseekers] = useState([]);
   const [companies, setCompanies] = useState([]);
-  const [view, setView] = useState('user'); // Default view is 'user'
+  const [view, setView] = useState('user');
   const navigate = useNavigate();
 
   useEffect(() => {

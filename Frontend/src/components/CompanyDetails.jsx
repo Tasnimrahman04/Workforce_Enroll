@@ -12,7 +12,6 @@ function CompanyDetails() {
   const [company, setCompany] = useState(null);
 
   useEffect(() => {
-    // Fetch company details based on query parameters
     axios.get('http://localhost:4001/user1/companies', {
       params: {
         company_name: companyName,
