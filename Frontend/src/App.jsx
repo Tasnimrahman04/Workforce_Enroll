@@ -27,7 +27,7 @@ import EditApplicationForm from './components/EditApplicationForm';
 import Bookmarked_Jobs from './components/Bookmarked_Jobs';
 import Company_Bookmarked_Jobs from './components/Company_Bookmarked_Jobs';
 import JobDetails_Jobseeker from './components/JobDetails_Jobseeker';
-
+import CompanyDetails from './components/CompanyDetails';
 
 
 
@@ -64,6 +64,9 @@ function App() {
           <Route path="/edit-application/:applicationId" element={<EditApplicationForm />} />
           <Route path="/bookmarked" element={<Bookmarked_Jobs/>} />
           <Route path="/company-bookmarked-jobs" element={<Company_Bookmarked_Jobs/>} />
+
+
+          <Route path="/companies/:id" element={<CompanyDetails />} />
           
 
          

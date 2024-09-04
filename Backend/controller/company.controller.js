@@ -1,6 +1,4 @@
 import User1 from "../model/company.model.js";
-import bcryptjs from "bcryptjs";
-
 
 export const signup1 = async (req, res) => {
   try {
@@ -55,4 +53,21 @@ export const login1 = async (req, res) => {
   }
 };
 
+export const getCompanyDetails = async (req, res) => {
+  try {
+    const { company_name, company_email, company_address } = req.query;
+    const query = {};
+    if (company_name) query.company_name = company_name;
+    if (company_email) query.company_email = company_email;
+    if (company_address) query.company_address = company_address;
 
+    const companies = await User1.find(query);
+    if (companies.length === 0) {
+      return res.status(404).json({ message: "Company not found" });
+    }
+    res.status(200).json(companies);
+  } catch (error) {
+    console.log("Error: " + error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

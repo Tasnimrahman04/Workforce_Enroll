@@ -4,7 +4,7 @@ import Login_Company from './Login_Company';
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from 'react-hot-toast';
-import { IconButton, InputAdornment, TextField } from '@mui/material'; // Import MUI components
+import { IconButton, InputAdornment, TextField } from '@mui/material'; 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 function Signup_Company() {
