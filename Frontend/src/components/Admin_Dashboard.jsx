@@ -116,9 +116,9 @@ function Admin_Dashboard() {
               <tbody>
                 {companies.map(company => (
                   <tr key={company._id}>
-                    <td>{company.name}</td>
-                    <td>{company.email}</td>
-                    <td>{company.address}</td>
+                    <td>{company.company_name}</td>
+                    <td>{company.company_email}</td>
+                    <td>{company.company_address}</td>
                     <td>
                       <button
                         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"

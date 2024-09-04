@@ -66,7 +66,7 @@ function App() {
           <Route path="/company-bookmarked-jobs" element={<Company_Bookmarked_Jobs/>} />
 
 
-          <Route path="/companies/:id" element={<CompanyDetails />} />
+          <Route path="/companies" element={<CompanyDetails />} />
           
 
          
